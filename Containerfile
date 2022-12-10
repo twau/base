@@ -30,7 +30,7 @@ RUN rpm-ostree override remove firefox firefox-langpacks && \
     rpm-ostree install ${RPMFUSION_FREE} ${RPMFUSION_NON_FREE} && \
     rpm-ostree install xorg-x11-drv-nvidia{,-cuda} kernel-${KERNEL_VERSION} && \
     rpm-ostree install /tmp/nvidia/*${KERNEL_VERSION}*.rpm && \
-    rpm-ostree kargs --append=rd.driver.blacklist=nouveau --append=modprobe.blacklist=nouveau --append=nvidia-drm.modeset=1 \
+    rpm-ostree kargs --append='rd.driver.blacklist=nouveau' --append='modprobe.blacklist=nouveau' --append='nvidia-drm.modeset=1' && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
     systemctl enable flatpak-automatic.timer && \
