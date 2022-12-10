@@ -1,4 +1,4 @@
-name: build-ublue
+name: build-ublue-test
 on:
   push:
   schedule:
