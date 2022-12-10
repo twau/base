@@ -56,11 +56,11 @@ if [ "$?" != 0 ] ; then
 fi
 echo "30"
 
-echo "# Installing Thunderbird"
-/usr/bin/flatpak install --user --noninteractive flathub org.mozilla.Thunderbird
+echo "# Installing LibreWolf"
+/usr/bin/flatpak install --user --noninteractive flathub io.gitlab.librewolf-community
 if [ "$?" != 0 ] ; then
         zenity --error \
-          --text="Installing Thunderbird Failed"
+          --text="Installing LibreWolf Failed"
         exit 1
 fi
 echo "40"
@@ -83,11 +83,11 @@ if [ "$?" != 0 ] ; then
 fi
 echo "70"
 
-echo "# Installing DejaDup Backup"
-/usr/bin/flatpak install --user --noninteractive flathub org.gnome.DejaDup
+echo "# Installing KopiaUI Backup"
+/usr/bin/flatpak install --user --noninteractive flathub io.kopia.KopiaUI
 if [ "$?" != 0 ] ; then
         zenity --error \
-          --text="Installing DejaDup Failed"
+          --text="Installing KopiaUI Failed"
         exit 1
 fi
 echo "80"
@@ -109,6 +109,42 @@ if [ "$?" != 0 ] ; then
         exit 1
 fi
 echo "90"
+
+echo "# Installing Spotify"
+/usr/bin/flatpak install --user --noninteractive flathub com.spotify.Client
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Spotify Failed"
+        exit 1
+fi
+echo "91"
+
+echo "# Installing Steam"
+/usr/bin/flatpak install --user --noninteractive flathub com.valvesoftware.Steam
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Steam Failed"
+        exit 1
+fi
+echo "92"
+
+echo "# Installing Bitwarden"
+/usr/bin/flatpak install --user --noninteractive flathub com.bitwarden.desktop
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Bitwarden Failed"
+        exit 1
+fi
+echo "93"
+
+echo "# Installing Signal Desktop"
+/usr/bin/flatpak install --user --noninteractive flathub org.signal.Signal
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Signal Desktop Failed"
+        exit 1
+fi
+echo "94"
 
 echo "# Installing Celluloid Media Player"
 /usr/bin/flatpak install --user --noninteractive flathub io.github.celluloid_player.Celluloid
