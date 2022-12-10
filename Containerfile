@@ -25,7 +25,8 @@ COPY etc /etc
 COPY ublue-firstboot /usr/bin
 
 RUN rpm-ostree override remove firefox firefox-langpacks && \
-    rpm-ostree install distrobox gnome-tweaks && \
+    rpm-ostree install distrobox gnome-tweaks solaar && \
+    rpm-ostree install gnome-shell-extension-appindicator yaru-theme && \
     rpm-ostree install ${RPMFUSION_FREE} ${RPMFUSION_NON_FREE} && \
     rpm-ostree install xorg-x11-drv-nvidia{,-cuda} kernel-${KERNEL_VERSION} && \
     rpm-ostree install /tmp/nvidia/*${KERNEL_VERSION}*.rpm && \
