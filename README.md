@@ -6,7 +6,7 @@ A base image with a (mostly) stock Fedora Silverblue.
 
 Warning: This is an experimental feature and should not be used in production
 
-    sudo rpm-ostree rebase --experimental ostree-unverified-registry:ghcr.io/ublue-os/base:latest
+    sudo rpm-ostree rebase --experimental ostree-unverified-registry:ghcr.io/twau/base:latest
   
 ## Features
 
