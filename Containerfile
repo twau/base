@@ -1,35 +1,30 @@
-ARG KERNEL_VERSION="6.0.11-300.fc37.x86_64"
-ARG RPMFUSION_FREE="https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm"
-ARG RPMFUSION_NON_FREE="https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm"
+ARG OS_VERSION=37
 
-FROM fedora:37
-ARG KERNEL_VERSION
-ARG RPMFUSION_FREE
-ARG RPMFUSION_NON_FREE
-
-RUN dnf install -y $RPMFUSION_FREE $RPMFUSION_NON_FREE fedora-repos-archive && \
-    dnf install -y mock xorg-x11-drv-nvidia{,-cuda} binutils kernel-devel-$KERNEL_VERSION kernel-$KERNEL_VERSION && \
+FROM fedora:37 as nvidia-builder
+RUN rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' > /kernel-version.txt
+RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${OS_VERSION}.noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${OS_VERSION}.noarch.rpm fedora-repos-archive && \
+    dnf install -y mock xorg-x11-drv-nvidia{,-cuda} binutils kernel-devel-$(cat /kernel-version.txt) kernel-$(cat /kernel-version.txt) && \
     akmods --force
-
+    
 FROM ghcr.io/cgwalters/fedora-silverblue:37
 # See https://pagure.io/releng/issue/11047 for final location
+ARG OS_VERSION=37
 
-ARG KERNEL_VERSION
-ARG RPMFUSION_FREE
-ARG RPMFUSION_NON_FREE
-# Copy kmod rpm from previous stage
-COPY --from=0 /var/cache/akmods/nvidia /tmp/nvidia
+# Copy kmod rpm and kernel-version from nvidia-builder
+COPY --from=nvidia-builder /kernel-version.txt /kernel-version.txt
+COPY --from=nvidia-builder /var/cache/akmods/nvidia /tmp/nvidia
 
 COPY etc /etc
-
 COPY ublue-firstboot /usr/bin
 
 RUN rpm-ostree override remove firefox firefox-langpacks && \
     rpm-ostree install distrobox gnome-tweaks solaar && \
     rpm-ostree install gnome-shell-extension-appindicator yaru-theme && \
-    rpm-ostree install ${RPMFUSION_FREE} ${RPMFUSION_NON_FREE} && \
-    rpm-ostree install xorg-x11-drv-nvidia{,-cuda} kernel-${KERNEL_VERSION} && \
-    rpm-ostree install /tmp/nvidia/*${KERNEL_VERSION}*.rpm && \
+    rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${OS_VERSION}.noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${OS_VERSION}.noarch.rpm && \
+    rpm-ostree install xorg-x11-drv-nvidia{,-cuda} kernel-$(cat /kernel-version.txt) && \
+    rpm-ostree install /tmp/nvidia/*$(cat /kernel-version.txt)*.rpm && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
     systemctl enable flatpak-automatic.timer && \
