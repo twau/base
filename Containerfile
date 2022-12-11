@@ -1,6 +1,7 @@
 ARG OS_VERSION=37
 
 FROM fedora:37 as nvidia-builder
+ARG OS_VERSION=37
 RUN rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' > /kernel-version.txt
 RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$OS_VERSION.noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$OS_VERSION.noarch.rpm fedora-repos-archive && \
