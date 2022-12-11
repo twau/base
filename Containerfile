@@ -10,7 +10,8 @@ COPY --from=kernel-query /kernel-version.txt /kernel-version.txt
 
 RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$OS_VERSION.noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$OS_VERSION.noarch.rpm fedora-repos-archive && \
-    dnf install -y mock xorg-x11-drv-nvidia{,-cuda} binutils kernel-devel-$(cat /kernel-version.txt) kernel-$(cat /kernel-version.txt) && \
+    dnf install -y mock xorg-x11-drv-nvidia{,-cuda} binutils \
+    kernel-$(cat /kernel-version.txt) kernel-modules-$(cat /kernel-version.txt) kernel-devel-$(cat /kernel-version.txt) && \
     akmods --force
     
 FROM ghcr.io/cgwalters/fedora-silverblue:37
