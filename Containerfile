@@ -1,6 +1,6 @@
 ARG OS_VERSION=37
 
-FROM fedora:37 as kernel-query
+FROM quay.io/fedora/fedora-coreos:stable as kernel-query
 #We can't use the `uname -r` as it will pick up the host kernel version
 RUN rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' > /kernel-version.txt
 
