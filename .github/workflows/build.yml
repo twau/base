@@ -1,4 +1,4 @@
-name: build-ublue-test
+name: build-ostree
 on:
   push:
   schedule:
