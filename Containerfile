@@ -26,11 +26,11 @@ COPY etc /etc
 COPY ublue-firstboot /usr/bin
 
 RUN rpm-ostree override remove firefox firefox-langpacks && \
-    rpm-ostree install distrobox gnome-tweaks solaar nvidia-vaapi-driver && \
+    rpm-ostree install distrobox gnome-tweaks solaar && \
     rpm-ostree install gnome-shell-extension-appindicator yaru-theme && \
     rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${OS_VERSION}.noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${OS_VERSION}.noarch.rpm && \
-    rpm-ostree install xorg-x11-drv-nvidia{,-cuda} kernel-$(cat /tmp/kernel-version.txt) && \
+    rpm-ostree install xorg-x11-drv-nvidia{,-cuda} kernel-$(cat /tmp/kernel-version.txt) nvidia-vaapi-driver && \
     rpm-ostree install /tmp/nvidia/*$(cat /tmp/kernel-version.txt)*.rpm && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
