@@ -11,7 +11,6 @@ Warning: This is an experimental feature and should not be used in production
 ## Features
 
 - Start with a base Fedora Silverblue 37 image
-- Removes Firefox from the base image
 - Adds the following packages to the base image:
   - distrobox, gnome-tweaks, solaar, gnome-shell-extension-appindicator and yaru-theme 
 - Sets automatic staging of updates for the system

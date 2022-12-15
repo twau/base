@@ -31,6 +31,8 @@ RUN rpm-ostree install distrobox gnome-tweaks solaar && \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${OS_VERSION}.noarch.rpm && \
     rpm-ostree install xorg-x11-drv-nvidia{,-cuda} kernel-$(cat /tmp/kernel-version.txt) nvidia-vaapi-driver && \
     rpm-ostree install /tmp/nvidia/*$(cat /tmp/kernel-version.txt)*.rpm && \
+    rpm-ostree install ffmpeg gstreamer1-plugin-openh264 gstreamer1-plugins-bad-free \
+    gstreamer1-plugins-bad-freeworld gstreamer1-plugins-good gstreamer1-plugins-ugly && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
     systemctl enable flatpak-automatic.timer && \
