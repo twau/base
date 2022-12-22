@@ -37,5 +37,4 @@ RUN rpm-ostree install distrobox gnome-tweaks solaar && \
     systemctl enable rpm-ostreed-automatic.timer && \
     systemctl enable flatpak-automatic.timer && \
     rm -rf /var/* && rm -rf /tmp/nvidia && \
-    rpm-ostree cleanup -m && \
     ostree container commit
